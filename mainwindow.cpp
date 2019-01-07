@@ -6,17 +6,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(settingsWindow.saveSettingsButton,SIGNAL(clicked()),this,SLOT(joinMulticast()));
+
     listModel = new QStandardItemModel();
     ui->messageListView->setModel(listModel);
 
-    addMessage("Nie znaleziono grupy multicast. Upewnij się, że podany adres jest poprawny.");
-    addMessage("Grupa multicast rozpoznana!");
-    addMessage("Rozpoczęto wysyłanie pliku. Znaleziono odbiorców: 4");
-    addMessage("Ponawianie pakietu dla 192.168.0.16...");
-    addMessage("Odbiorca 192.168.0.16 nie odpowiada. Odbiorca może nie otrzymać pliku w całości.");
-    addMessage("Pomyślnie wysłano plik do 3 odbiorców!");
-    addMessage("Odebrano plik. Plik jest dostępny do pobrania.");
-    addMessage("Odebrano plik. Plik jest dostępny do pobrania.");
+    addMessage(joinFailure);
+    addMessage(joinSuccess);
+    addMessage(fileSendingStart);
+    addMessage(receiversFound.arg(4));
+    addMessage(resending.arg("192.168.0.16"));
+    addMessage(receiverInactive.arg("192.168.0.16"));
+    addMessage(fileSendingSuccess.arg(3));
+    addMessage(fileReceived);
+    addMessage(fileReceived);
 }
 
 MainWindow::~MainWindow()
@@ -27,4 +31,24 @@ MainWindow::~MainWindow()
 void MainWindow::addMessage(QString message){
     QStandardItem* messageItem = new QStandardItem(message);
     listModel->appendRow(messageItem);
+}
+
+void MainWindow::on_settingsButton_clicked()
+{
+    settingsWindow.show();
+}
+
+void MainWindow::joinMulticast()
+{
+    QString multicastAddress = settingsWindow.multicastAddress;
+
+    bool success = true; // TODO: próba dołączenia lub weryfikacji adresu
+
+    if(success){
+        ui->sendButton->setEnabled(true);
+        addMessage(joinSuccess);
+    }
+    else{
+        addMessage(joinFailure);
+    }
 }
