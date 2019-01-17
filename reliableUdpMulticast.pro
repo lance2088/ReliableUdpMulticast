@@ -27,7 +27,6 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     settingswindow.cpp \
-    logic.cpp \
     udpclient.cpp \
     utils.cpp
 
@@ -35,7 +34,6 @@ HEADERS += \
         mainwindow.h \
     settingswindow.h \
     constants.h \
-    logic.h \
     udpclient.h \
     utils.h
 

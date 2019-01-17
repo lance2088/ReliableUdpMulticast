@@ -17,7 +17,6 @@ class UdpClient
         struct sockaddr_in myaddr;
 
     public:
-        UdpClient();
         UdpClient(int domain, int type, int protocol, const char *client_ip, const char *port);
         ~UdpClient();
         void sendToIp(const char *ip_address, const char *port, char *buf);
