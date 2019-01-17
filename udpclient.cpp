@@ -10,6 +10,11 @@ UdpClient::~UdpClient()
     close(this->sock);
 }
 
+UdpClient:: UdpClient()
+{
+    UdpClient(AF_INET, SOCK_DGRAM, 0, "127.0.0.1", "4000");
+}
+
 UdpClient::UdpClient(int domain, int type, int protocol, const char *client_ip, const char *port)
 {
     this->domain = domain;
