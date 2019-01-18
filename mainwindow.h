@@ -6,6 +6,7 @@
 #include <constants.h>
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include "manager.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ private:
     QStandardItemModel* listModel;
     Ui::MainWindow *ui;
     SettingsWindow settingsWindow;
+    Manager *manager;
 };
 
 #endif // MAINWINDOW_H

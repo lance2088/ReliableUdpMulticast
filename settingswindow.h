@@ -15,6 +15,7 @@ class SettingsWindow : public QWidget
 public:
     explicit SettingsWindow(QWidget *parent = 0);
     QString multicastAddress;
+    QString hostAddress;
     QPushButton *saveSettingsButton;
     ~SettingsWindow();
 

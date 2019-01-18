@@ -11,6 +11,11 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#include "qwidget.h"
+
+struct sockaddr_in generate_address_structure(const char *ip);
 struct sockaddr_in generate_address_structure(const char *ip, const char *port);
+
+bool validateAddress(QString address);
 
 #endif // UTILS_H
