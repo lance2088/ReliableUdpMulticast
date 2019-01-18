@@ -13,7 +13,7 @@
 
 TTD:
 
-- [ ] Wysłanie pakietu na adres multicastowy, dla którego ma nastąpić odpowiedź członków adresu multicast + podanie sposobu testowania przy użyciu zewnętrznych narzędzi
+- [x] Wysłanie pakietu na adres multicastowy, dla którego ma nastąpić odpowiedź członków adresu multicast + podanie sposobu testowania przy użyciu zewnętrznych narzędzi
 - [ ] Czekanie na pakiet zwrotny z informacją o adresie IP który przyjdzie od członka adresu multicast + podanie sposobu testowania przy użyciu zewnętrznych narzędzi
 - [ ] Stworzenie oczekiwania na wszystkich odbiorców i zakwalifikowanie ich do transmisji - określenie maksymalnego czasu oczekiwania, zebranie ich np. do tablicy
 - [ ] Podział danych na pakiety i wysłanie ich do odbiorców
