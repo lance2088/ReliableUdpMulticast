@@ -73,28 +73,17 @@ void MainWindow::sendFile() //Ciało tej funkcji powinno zostać przeniesione do
 //        for(int j = 0; j < charsRead; j++) printf("%c", buffer[j]);
 //    }
 
-    if(manager == nullptr) manager = new Manager("127.0.0.1", "239.0.0.1");
+    if(manager == nullptr) manager = new Manager("127.0.0.1", "239.0.0.1", "6100");
     manager->sendFile();
     manager->receiveFile();
 }
 
 void MainWindow::joinMulticast()
 {
-    QString multicastAddress = settingsWindow.multicastAddress;
-    QString hostAddress = settingsWindow.hostAddress;
-
-    bool multicastSuccess = validateAddress(multicastAddress);
-    bool hostSuccess = validateAddress(hostAddress);
-
-    Manager *manager = nullptr;
-
-    char *hostIp = "127.0.0.1";
-    if(hostSuccess) hostIp = hostAddress.toLocal8Bit().data();
-    if(multicastSuccess) manager = new Manager(hostIp, multicastAddress.toLocal8Bit().data());
-    else manager = new Manager(hostIp);
+//    QString multicastAddress = settingsWindow.multicastAddress;
+//    QString hostAddress = settingsWindow.hostAddress;
 
     bool success = true; // TODO: próba dołączenia lub weryfikacji adresu
-
 
     if(success){
         ui->sendButton->setEnabled(true);

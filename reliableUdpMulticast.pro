@@ -28,18 +28,20 @@ SOURCES += \
         mainwindow.cpp \
     settingswindow.cpp \
     utils.cpp \
-    udp.cpp \
     manager.cpp \
-    sendwindow.cpp
+    sendwindow.cpp \
+    unicastudp.cpp \
+    multicastudplistener.cpp
 
 HEADERS += \
         mainwindow.h \
     settingswindow.h \
     constants.h \
     utils.h \
-    udp.h \
     manager.h \
-    sendwindow.h
+    sendwindow.h \
+    unicastudp.h \
+    multicastudplistener.h
 
 FORMS += \
         mainwindow.ui \

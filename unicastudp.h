@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-class Udp
+class UnicastUdp
 {
     private:
         int sock;
@@ -18,13 +18,10 @@ class Udp
         struct sockaddr_in myaddr;
 
     public:
-        Udp(int domain, int type, int protocol, const char *client_ip);
-        Udp(int domain, int type, int protocol, const char *client_ip, const char *port);
-        ~Udp();
-        void joinMulticastGroup(const char *multicastIp);
+        UnicastUdp(int domain, int type, int protocol, const char *client_ip);
+        ~UnicastUdp();
         void recvFromIp(const char *ip_address, const char *port, char *buf);
         void sendToIp(const char *ip_address, const char *port, char *buf);
-        int getSock() const;
 };
 
 #endif // UDP_H

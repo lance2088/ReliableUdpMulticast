@@ -1,19 +1,21 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
-#include "udp.h"
+#include "unicastudp.h"
+#include "multicastudplistener.h"
 #include "qwidget.h"
 
 class Manager
 {
     private:
-        Udp *sender;
-        Udp *receiver;
+        UnicastUdp *unicastUdp;
+        MulticastUdpListener *multicastUdpListener;
+        const char *hostIp;
+        const char *multicastIp;
+        const char *multicastPort;
 
     public:
-        Manager();
-        Manager(QString hostInfo);
-        Manager(const char *hostIp, const char *multicastIp);
+        Manager(const char *hostIp, const char *multicastIp, const char *multicastPort);
         ~Manager();
         void sendFile();
         void receiveFile();
