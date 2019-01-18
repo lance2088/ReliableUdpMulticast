@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     addMessage(fileSendingSuccess.arg(3));
     addMessage(fileReceived);
     addMessage(fileReceived);
+
+    manager = nullptr;
 }
 
 MainWindow::~MainWindow()
@@ -51,25 +53,29 @@ void MainWindow::on_sendButton_clicked()
 void MainWindow::sendFile() //Ciało tej funkcji powinno zostać przeniesione do zewnętrznej funkcji zajmującej się wysyłaniem
 {
     addMessage(fileSendingStart);
-    QString fileName = sendWindow.fileName;
+//    QString fileName = sendWindow.fileName;
 
-    const int charsAtOnce = 10; //Parametr który powinien zostać przeniesiony w momencie, gdy będziemy znali wielkość pakietu
-    char buffer[charsAtOnce];
-    int charsRead = charsAtOnce;
+//    const int charsAtOnce = 10; //Parametr który powinien zostać przeniesiony w momencie, gdy będziemy znali wielkość pakietu
+//    char buffer[charsAtOnce];
+//    int charsRead = charsAtOnce;
 
-    QFile file(fileName);
-    QDataStream in(&file);
+//    QFile file(fileName);
+//    QDataStream in(&file);
 
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, tr("Nastąpił problem z otwarciem pliku"), file.errorString());
-        return;
-    }
+//    if (!file.open(QIODevice::ReadOnly)) {
+//        QMessageBox::information(this, tr("Nastąpił problem z otwarciem pliku"), file.errorString());
+//        return;
+//    }
 
-    while(charsRead == charsAtOnce){
-        charsRead = in.readRawData(buffer, charsAtOnce);
-        //Printowanie ilustrujace wyslanie pliku w pakietach
-        for(int j = 0; j < charsRead; j++) printf("%c", buffer[j]);
-    }
+//    while(charsRead == charsAtOnce){
+//        charsRead = in.readRawData(buffer, charsAtOnce);
+//        //Printowanie ilustrujace wyslanie pliku w pakietach
+//        for(int j = 0; j < charsRead; j++) printf("%c", buffer[j]);
+//    }
+
+    if(manager == nullptr) manager = new Manager("127.0.0.1", "239.0.0.1");
+    manager->sendFile();
+    manager->receiveFile();
 }
 
 void MainWindow::joinMulticast()

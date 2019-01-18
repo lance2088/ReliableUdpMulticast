@@ -65,6 +65,8 @@ void Udp::recvFromIp(const char *ip_address, const char *port, char *buf)
     socklen_t serv_addr_size = sizeof(struct sockaddr);
     recvfrom(sock, buf, strlen(buf), 0, (struct sockaddr*)&serv_addr, &serv_addr_size);
 
+    std::cout<<"Received message: "<<buf<<std::endl;
+
 }
 
 void Udp::sendToIp(const char *ip_address, const char *port, char *buf)

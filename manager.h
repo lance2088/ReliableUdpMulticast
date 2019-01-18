@@ -13,7 +13,7 @@ class Manager
     public:
         Manager();
         Manager(QString hostInfo);
-        Manager(QString hostInfo, QString multicastInfo);
+        Manager(const char *hostIp, const char *multicastIp);
         ~Manager();
         void sendFile();
         void receiveFile();

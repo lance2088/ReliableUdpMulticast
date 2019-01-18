@@ -24,20 +24,12 @@ Manager::Manager(QString hostInfo)
     this->receiver = new Udp(AF_INET, SOCK_DGRAM, IPPROTO_UDP, hostIp);
 }
 
-Manager::Manager(QString hostInfo, QString multicastInfo)
+Manager::Manager(const char *hostIp, const char *multicastIp)
 {
-    const char *hostIp = hostInfo.toLocal8Bit().data();
     this->sender = new Udp(AF_INET, SOCK_DGRAM, IPPROTO_UDP, hostIp);
     this->receiver = new Udp(AF_INET, SOCK_DGRAM, IPPROTO_UDP, hostIp);
-
-    const char *multicastIp = multicastInfo.toLocal8Bit().data();
     this->receiver->joinMulticastGroup(multicastIp);
-}
 
-void Manager::sendFile()
-{
-    this->sender->sendToIp("235.0.0.0", "2500", "wiadomosc w butelce");
-    /*
     // The structure for two events
     struct pollfd fds[2];
 
@@ -48,37 +40,50 @@ void Manager::sendFile()
     fds[1].events = POLLIN;
 
     // Wait infinitely for an event
-    int ret = poll(fds, 2, -1);
+    while(true) {
+        int ret = poll(fds, 2, 10);
 
-    // Check if poll actually succeed
-    if (ret == -1)
-    {
-        // report error and abort
-        perror ("ret == -1");
-        exit (EXIT_FAILURE);
-    }
-    else
-    {
-        // If we detect the event, zero it out so we can reuse the structure
-        if (fds[0].revents & POLLOUT)
+        std::cout<<"after poll"<<std::endl;
+
+        // Check if poll actually succeed
+        if(ret == -1)
         {
-            fds[0].revents = 0;
-            this->sender->sendToIp("127.0.0.1", "5555", "kurczakii");
+            // report error and abort
+            perror ("ret == -1");
+            exit (EXIT_FAILURE);
         }
+        else if(ret != 0)
+        {
+            if (fds[0].revents & POLLIN)
+            {
+                fds[0].revents = 0;
+                this->sender->sendToIp("239.0.0.1", "5555", "kurczakii");
+            }
 
-        if (fds[1].revents & POLLIN) {
-            fds[1].revents = 0;
-            char buf[1000];
-            this->receiver->recvFromIp("127.0.0.1", "4500", buf);
+            if (fds[1].revents & POLLOUT)
+            {
+                fds[1].revents = 0;
+                char buf[1000];
+                this->receiver->recvFromIp("239.0.0.1", "5555", buf);
+            }
         }
     }
-    */
+}
+
+void Manager::sendFile()
+{
+//    this->sender->sendToIp("235.0.0.0", "2500", "wiadomosc w butelce");
+//    /*
+
+
+    this->sender->sendToIp("239.0.0.1", "5555", "kurczakii");
+//    */
 
 }
 
 void Manager::receiveFile()
 {
     char buf[19];
-    this->receiver->recvFromIp("235.0.0.0", "2500", buf);
+    this->receiver->recvFromIp("239.0.0.1", "5555", buf);
     std::cout<<buf<<std::endl;
 }
