@@ -24,7 +24,7 @@ TTD:
 - [ ] W razie potrzeby, uzupełnienie pakietów o informację o liczbie, kolejności, itp.
 
 ----------
-- [ ] Upload pliku
+- [x] Upload pliku
 - [ ] Wysyłanie wybranego pliku
 - [ ] Zebranie otrzymanych pakietów do jednego pliku
 - [ ] Możliwość pobrania otrzymanego pliku
