@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include <settingswindow.h>
+#include <sendwindow.h>
 #include <constants.h>
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -22,13 +24,15 @@ public:
 
 private slots:
     void on_settingsButton_clicked();
-
+    void on_sendButton_clicked();
     void joinMulticast();
+    void sendFile();
 
 private:
     QStandardItemModel* listModel;
     Ui::MainWindow *ui;
     SettingsWindow settingsWindow;
+    SendWindow sendWindow;
 };
 
 #endif // MAINWINDOW_H

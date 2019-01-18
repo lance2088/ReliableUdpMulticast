@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect(settingsWindow.saveSettingsButton,SIGNAL(clicked()),this,SLOT(joinMulticast()));
+    connect(sendWindow.acceptSendButton,SIGNAL(clicked()),this,SLOT(sendFile()));
 
     listModel = new QStandardItemModel();
     ui->messageListView->setModel(listModel);
@@ -36,6 +37,35 @@ void MainWindow::addMessage(QString message){
 void MainWindow::on_settingsButton_clicked()
 {
     settingsWindow.show();
+}
+
+void MainWindow::on_sendButton_clicked()
+{
+    sendWindow.show();
+}
+
+void MainWindow::sendFile() //Ciało tej funkcji powinno zostać przeniesione do zewnętrznej funkcji zajmującej się wysyłaniem
+{
+    addMessage(fileSendingStart);
+    QString fileName = sendWindow.fileName;
+
+    const int charsAtOnce = 10; //Parametr który powinien zostać przeniesiony w momencie, gdy będziemy znali wielkość pakietu
+    char buffer[charsAtOnce];
+    int charsRead = charsAtOnce;
+
+    QFile file(fileName);
+    QDataStream in(&file);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, tr("Nastąpił problem z otwarciem pliku"), file.errorString());
+        return;
+    }
+
+    while(charsRead == charsAtOnce){
+        charsRead = in.readRawData(buffer, charsAtOnce);
+        //Printowanie ilustrujace wyslanie pliku w pakietach
+        for(int j = 0; j < charsRead; j++) printf("%c", buffer[j]);
+    }
 }
 
 void MainWindow::joinMulticast()
