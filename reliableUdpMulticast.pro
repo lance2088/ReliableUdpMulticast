@@ -26,12 +26,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    settingswindow.cpp
+    settingswindow.cpp \
+    udpclient.cpp \
+    utils.cpp
 
 HEADERS += \
         mainwindow.h \
     settingswindow.h \
-    constants.h
+    constants.h \
+    udpclient.h \
+    utils.h
 
 FORMS += \
         mainwindow.ui \
