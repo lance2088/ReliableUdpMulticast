@@ -27,13 +27,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     settingswindow.cpp \
-    sendwindow.cpp
+    sendwindow.cpp \
+    udpclient.cpp \
+    utils.cpp
 
 HEADERS += \
         mainwindow.h \
     settingswindow.h \
     constants.h \
-    sendwindow.h
+    sendwindow.h \
+    udpclient.h \
+    utils.h
 
 FORMS += \
         mainwindow.ui \
