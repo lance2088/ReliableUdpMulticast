@@ -54,7 +54,7 @@
           <item>
            <widget class="QPushButton" name="sendButton">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Wyślij plik</string>
