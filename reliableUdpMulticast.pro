@@ -27,17 +27,21 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     settingswindow.cpp \
+    utils.cpp \
     sendwindow.cpp \
-    udpclient.cpp \
-    utils.cpp
+    unicastudp.cpp \
+    multicastudplistener.cpp \
+    udp.cpp
 
 HEADERS += \
         mainwindow.h \
     settingswindow.h \
     constants.h \
+    utils.h \
     sendwindow.h \
-    udpclient.h \
-    utils.h
+    unicastudp.h \
+    multicastudplistener.h \
+    udp.h
 
 FORMS += \
         mainwindow.ui \

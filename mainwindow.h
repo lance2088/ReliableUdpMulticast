@@ -2,12 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QStandardItemModel>
+#include <QStandardItem>
+
 #include <settingswindow.h>
 #include <sendwindow.h>
 #include <constants.h>
-#include <QStandardItemModel>
-#include <QStandardItem>
-#include <QMessageBox>
+#include "udp.h"
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +35,7 @@ private:
     Ui::MainWindow *ui;
     SettingsWindow settingsWindow;
     SendWindow sendWindow;
+    Udp *udp;
 };
 
 #endif // MAINWINDOW_H
