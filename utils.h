@@ -9,7 +9,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include "qwidget.h"
+#include <qstring.h>
 
 struct sockaddr_in generate_address_structure(const char *ip, const char *port="0");
 
