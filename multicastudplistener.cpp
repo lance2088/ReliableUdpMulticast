@@ -1,8 +1,9 @@
-#include "multicastudplistener.h"
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
+
+#include "multicastudplistener.h"
 #include "utils.h"
 
 MulticastUdpListener::~MulticastUdpListener()
@@ -17,8 +18,6 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     this->protocol = protocol;
     this->multicastIp = multicastAddress;
 
-    u_int yes=1;
-
     if((this->sock = socket(domain, type, protocol)) < 0)
     {
         perror ("Cannot create the socket");
@@ -26,7 +25,8 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     }
 
     /* allow multiple sockets to use the same PORT number */
-    if (setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,&yes,sizeof(yes)) < 0)
+    u_int optval=1;
+    if (setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,&optval,sizeof(optval)) < 0)
     {
         perror("Reusing ADDR failed");
         exit(EXIT_FAILURE);

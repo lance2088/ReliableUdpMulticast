@@ -1,8 +1,9 @@
+#include <iostream>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include "utils.h"
-#include "manager.h"
+#include "udp.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,13 +27,13 @@ MainWindow::MainWindow(QWidget *parent) :
     addMessage(fileReceived);
     addMessage(fileReceived);
 
-    manager = nullptr;
+    udp = nullptr;
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete manager;
+    delete udp;
 }
 
 void MainWindow::addMessage(QString message){
@@ -53,36 +54,14 @@ void MainWindow::on_sendButton_clicked()
 void MainWindow::sendFile() //Ciało tej funkcji powinno zostać przeniesione do zewnętrznej funkcji zajmującej się wysyłaniem
 {
     addMessage(fileSendingStart);
-//    QString fileName = sendWindow.fileName;
 
-//    const int charsAtOnce = 10; //Parametr który powinien zostać przeniesiony w momencie, gdy będziemy znali wielkość pakietu
-//    char buffer[charsAtOnce];
-//    int charsRead = charsAtOnce;
-
-//    QFile file(fileName);
-//    QDataStream in(&file);
-
-//    if (!file.open(QIODevice::ReadOnly)) {
-//        QMessageBox::information(this, tr("Nastąpił problem z otwarciem pliku"), file.errorString());
-//        return;
-//    }
-
-//    while(charsRead == charsAtOnce){
-//        charsRead = in.readRawData(buffer, charsAtOnce);
-//        //Printowanie ilustrujace wyslanie pliku w pakietach
-//        for(int j = 0; j < charsRead; j++) printf("%c", buffer[j]);
-//    }
-
-    if(manager == nullptr) manager = new Manager("127.0.0.1", "239.0.0.1", "6100");
-    manager->sendFile();
-    manager->receiveFile();
+    if(udp == nullptr) udp = new Udp("127.0.0.1", "239.0.0.1", "6100");
+    udp->sendFile();
+    udp->receiveFile();
 }
 
 void MainWindow::joinMulticast()
 {
-//    QString multicastAddress = settingsWindow.multicastAddress;
-//    QString hostAddress = settingsWindow.hostAddress;
-
     bool success = true; // TODO: próba dołączenia lub weryfikacji adresu
 
     if(success){

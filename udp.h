@@ -1,11 +1,12 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
-#include "unicastudp.h"
-#include "multicastudplistener.h"
 #include "qwidget.h"
 
-class Manager
+#include "unicastudp.h"
+#include "multicastudplistener.h"
+
+class Udp
 {
     private:
         UnicastUdp *unicastUdp;
@@ -15,8 +16,8 @@ class Manager
         const char *multicastPort;
 
     public:
-        Manager(const char *hostIp, const char *multicastIp, const char *multicastPort);
-        ~Manager();
+        Udp(const char *hostIp, const char *multicastIp, const char *multicastPort);
+        ~Udp();
         void sendFile();
         void receiveFile();
 };

@@ -1,18 +1,19 @@
-#include "manager.h"
-#include "unicastudp.h"
-#include "multicastudplistener.h"
-#include "poll.h"
 #include <stdio.h>
 #include "qwidget.h"
 #include <iostream>
 
-Manager::~Manager()
+#include "udp.h"
+#include "unicastudp.h"
+#include "multicastudplistener.h"
+#include "poll.h"
+
+Udp::~Udp()
 {
     delete this->unicastUdp;
     delete this->multicastUdpListener;
 }
 
-Manager::Manager(const char *hostIp, const char *multicastIp, const char *multicastPort)
+Udp::Udp(const char *hostIp, const char *multicastIp, const char *multicastPort)
 {
     this->unicastUdp = new UnicastUdp(AF_INET, SOCK_DGRAM, IPPROTO_UDP, hostIp);
     this->multicastUdpListener = new MulticastUdpListener(AF_INET, SOCK_DGRAM, IPPROTO_UDP, hostIp, multicastIp, multicastPort);
@@ -21,14 +22,14 @@ Manager::Manager(const char *hostIp, const char *multicastIp, const char *multic
     this->multicastPort = multicastPort;
 }
 
-void Manager::sendFile()
+void Udp::sendFile()
 {
     char *message = "wiadomostkakurczaki";
     this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, message);
     std::cout<<"Sent message: "<<message<<std::endl;
 }
 
-void Manager::receiveFile()
+void Udp::receiveFile()
 {
     char buf[256];
     this->multicastUdpListener->recvPacket(buf);
