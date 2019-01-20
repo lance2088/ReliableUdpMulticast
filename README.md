@@ -18,7 +18,7 @@ TTD:
 - [ ] Stworzenie oczekiwania na wszystkich odbiorców i zakwalifikowanie ich do transmisji - określenie maksymalnego czasu oczekiwania, zebranie ich np. do tablicy
 - [ ] Podział danych na pakiety i wysłanie ich do odbiorców
 - [ ] Funkcjonalność dosyłania pojedynczego pakietu do odbiorcy, na razie nie zależnie, od tego, czy otrzymał pakiet, czy nie
-- [ ] Zapoznać się z mechanizmem okna przesuwnego i wybiórczych potwierdzeń (selective acks) z TCP i zastanowienie się, jak można to zrealizować w projekcie
+- [x] Zapoznać się z mechanizmem okna przesuwnego i wybiórczych potwierdzeń (selective acks) z TCP i zastanowienie się, jak można to zrealizować w projekcie
 - [ ] Realizacja otrzymywania potwierdzeń - do doprecyzowania po kroku powyższym
 - [ ] Realizacja dosyłania na bazie braku potwierdzenia
 - [ ] W razie potrzeby, uzupełnienie pakietów o informację o liczbie, kolejności, itp.
@@ -29,3 +29,10 @@ TTD:
 - [ ] Zebranie otrzymanych pakietów do jednego pliku
 - [ ] Możliwość pobrania otrzymanego pliku
 - [ ] ...
+----------
+Przed oddaniem:
+
+- [ ] Projekt buduje się automatycznie (np. make)
+- [ ] Programy mają się kompilować bez ostrzeżeń (z flagą kompilatora -Wall)
+- [ ] Przetestowanie kodu analizatorami statycznymi: splint, cppcheck, clang
+- [ ] Przetestowanie wykonania analizatorem dynamicznym: valgrind
