@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "constants.h"
 
 struct sockaddr_in generate_address_structure(const char *ip, const char *port)
 {
@@ -23,4 +24,25 @@ bool validateAddress(QString address)
         else return true;
     }
     else return false;
+}
+
+int calculateActualDataSize(int sizeOfFile)
+{
+    int dataSize = payloadSize;
+
+    while(sizeOfFile > dataSize){
+        sizeOfFile /= 256;
+        dataSize--;
+    }
+
+    return dataSize;
+}
+
+void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
+{
+    while(packetNumberSize > 0){
+        packetNumberSize--;
+        buffer[packetNumberSize] = packetNum % 256;
+        packetNum /= 256;
+    }
 }

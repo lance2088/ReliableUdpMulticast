@@ -1,4 +1,5 @@
 #include <iostream>
+#include <qmessagebox.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -51,12 +52,20 @@ void MainWindow::on_sendButton_clicked()
     sendWindow.show();
 }
 
-void MainWindow::sendFile() //Ciało tej funkcji powinno zostać przeniesione do zewnętrznej funkcji zajmującej się wysyłaniem
+void MainWindow::sendFile()
 {
+    QString fileName = sendWindow.fileName;
+    QFile *file = new QFile(fileName);
+
+    if (!file->open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, "Nastąpił problem z otwarciem pliku", file->errorString());
+        return;
+    }
+
     addMessage(fileSendingStart);
 
     if(udp == nullptr) udp = new Udp("127.0.0.1", "239.0.0.1", "6100");
-    udp->sendFile();
+    udp->sendFile(file);
     udp->receiveFile();
 }
 

@@ -15,4 +15,8 @@ struct sockaddr_in generate_address_structure(const char *ip, const char *port="
 
 bool validateAddress(QString address);
 
+int calculateActualDataSize(int sizeOfFile);
+
+void writePacketNum(char *buffer, int packetNum, int packetNumberSize);
+
 #endif // UTILS_H
