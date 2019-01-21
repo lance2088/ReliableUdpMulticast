@@ -6,6 +6,8 @@
 #include "unicastudp.h"
 #include "multicastudplistener.h"
 #include "poll.h"
+#include "constants.h"
+#include "utils.h"
 
 Udp::~Udp()
 {
@@ -22,11 +24,22 @@ Udp::Udp(const char *hostIp, const char *multicastIp, const char *multicastPort)
     this->multicastPort = multicastPort;
 }
 
-void Udp::sendFile()
+void Udp::sendFile(QFile *file)
 {
-    char *message = "wiadomostkakurczaki";
-    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, message);
-    std::cout<<"Sent message: "<<message<<std::endl;
+    QDataStream in(file);
+
+    char buffer[payloadSize];
+    const int charsAtOnce = calculateActualDataSize(file->size());
+    const int packetNumberSize = payloadSize - charsAtOnce;
+    int charsRead = charsAtOnce;
+    int packetNum = 0; // DLA TESTOWANIA O NC ZAMIENIC NA 1
+
+    while(charsRead == charsAtOnce){
+        charsRead = in.readRawData(buffer+packetNumberSize, charsAtOnce);
+        writePacketNum(buffer, packetNum, packetNumberSize);
+        sendPacket(buffer);
+        packetNum++;
+    }
 }
 
 void Udp::receiveFile()
@@ -39,4 +52,10 @@ void Udp::receiveFile()
         std::cout<<buf[i];
     }
     std::cout<<std::endl;
+}
+
+void Udp::sendPacket(char * data)
+{
+    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, data);
+    std::cout<<"Sent message: "<<data<<std::endl;
 }
