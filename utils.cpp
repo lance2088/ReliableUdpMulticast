@@ -46,3 +46,15 @@ void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
         packetNum /= 256;
     }
 }
+
+char* createStartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
+{
+    int howManyDataPackets = fileSize / charsAtOnce;
+    if(fileSize % charsAtOnce != 0) howManyDataPackets++;
+
+    QString message = QString::number(fileSize)
+            + "." + QString::number(howManyDataPackets)
+            + "." + QString::number(packetNumberSize);
+
+    return message.toLocal8Bit().data();
+}

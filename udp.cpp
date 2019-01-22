@@ -34,10 +34,13 @@ void Udp::sendFile(QFile *file)
     int charsRead = charsAtOnce;
     int packetNum = 0; // DLA TESTOWANIA O NC ZAMIENIC NA 1
 
+    char *startPacket = createStartPacket(file->size(), charsAtOnce, packetNumberSize);
+    this->sendPacket(startPacket);
+
     while(charsRead == charsAtOnce){
         charsRead = in.readRawData(buffer+packetNumberSize, charsAtOnce);
         writePacketNum(buffer, packetNum, packetNumberSize);
-        sendPacket(buffer);
+        this->sendPacket(buffer);
         packetNum++;
     }
 }
@@ -46,16 +49,10 @@ void Udp::receiveFile()
 {
     char buf[256];
     this->multicastUdpListener->recvPacket(buf);
-    std::cout<<"Received message: ";
-    for(int i=0; i<this->multicastUdpListener->getNbytes(); i++)
-    {
-        std::cout<<buf[i];
-    }
-    std::cout<<std::endl;
+    std::cout<<"Received packet: "<<buf<<std::endl;
 }
 
 void Udp::sendPacket(char * data)
 {
     this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, data);
-    std::cout<<"Sent message: "<<data<<std::endl;
 }

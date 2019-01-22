@@ -19,4 +19,6 @@ int calculateActualDataSize(int sizeOfFile);
 
 void writePacketNum(char *buffer, int packetNum, int packetNumberSize);
 
+char* createStartPacket(int fileSize, int charsAtOnce, int packetNumberSize);
+
 #endif // UTILS_H
