@@ -13,6 +13,7 @@ Udp::~Udp()
 {
     delete this->unicastUdp;
     delete this->multicastUdpListener;
+    delete this->startPacket;
 }
 
 Udp::Udp(const char *hostIp, const char *multicastIp, const char *multicastPort)
@@ -22,6 +23,7 @@ Udp::Udp(const char *hostIp, const char *multicastIp, const char *multicastPort)
     this->hostIp = hostIp;
     this->multicastIp = multicastIp;
     this->multicastPort = multicastPort;
+    this->startPacket = nullptr;
 }
 
 void Udp::sendFile(QFile *file)
@@ -34,22 +36,24 @@ void Udp::sendFile(QFile *file)
     int charsRead = charsAtOnce;
     int packetNum = 0; // DLA TESTOWANIA O NC ZAMIENIC NA 1
 
-    char *startPacket = createStartPacket(file->size(), charsAtOnce, packetNumberSize);
-    this->sendPacket(startPacket);
+    if(this->startPacket != nullptr) delete this->startPacket;
+    this->startPacket = new StartPacket(file->size(), charsAtOnce, packetNumberSize);
 
-    while(charsRead == charsAtOnce){
-        charsRead = in.readRawData(buffer+packetNumberSize, charsAtOnce);
-        writePacketNum(buffer, packetNum, packetNumberSize);
-        this->sendPacket(buffer);
-        packetNum++;
-    }
+    this->sendPacket(this->startPacket->getStartPacketString());
+
+//    while(charsRead == charsAtOnce){
+//        charsRead = in.readRawData(buffer+packetNumberSize, charsAtOnce);
+//        writePacketNum(buffer, packetNum, packetNumberSize);
+//        this->sendPacket(buffer);
+//        packetNum++;
+//    }
 }
 
 void Udp::receiveFile()
 {
-    char buf[256];
-    this->multicastUdpListener->recvPacket(buf);
-    std::cout<<"Received packet: "<<buf<<std::endl;
+    if(this->startPacket != nullptr) delete this->startPacket;
+    this->startPacket = this->multicastUdpListener->recvStartPacket();
+    this->startPacket->describe();
 }
 
 void Udp::sendPacket(char * data)

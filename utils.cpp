@@ -47,14 +47,32 @@ void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
     }
 }
 
-char* createStartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
+long int pow(int base, int exp)
 {
-    int howManyDataPackets = fileSize / charsAtOnce;
-    if(fileSize % charsAtOnce != 0) howManyDataPackets++;
+    long int result = 1;
+    for(int i=1; i<=exp; i++)
+    {
+        result *= base;
+    }
+    return result;
+}
 
-    QString message = QString::number(fileSize)
-            + "." + QString::number(howManyDataPackets)
-            + "." + QString::number(packetNumberSize);
+void substr(char *str, int begin, int end, char *strResult)
+{
+    for(int i=begin; i<end; i++) strResult[i-begin] = str[i];
+}
 
-    return message.toLocal8Bit().data();
+int charToInt(char digit)
+{
+    return digit - '0';
+}
+
+long int strToInt(char *str, int length)
+{
+    long int total = 0;
+    for(int i=0; i<length; i++)
+    {
+        total += (pow(10, length-i-1) * charToInt(str[i]));
+    }
+    return total;
 }

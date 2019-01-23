@@ -2,9 +2,12 @@
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
+#include <QStringList>
 
 #include "multicastudplistener.h"
 #include "utils.h"
+#include "constants.h"
+#include "startpacket.h"
 
 MulticastUdpListener::~MulticastUdpListener()
 {
@@ -55,14 +58,34 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     }
 }
 
-void MulticastUdpListener::recvPacket(char *buf)
+void MulticastUdpListener::recvDataPacket(char *buf)
 {
     addrlen=sizeof(addr);
-    if ((nbytes=recvfrom(sock,buf,256,0,(struct sockaddr *) &addr,&addrlen)) < 0)
+    if ((nbytes=recvfrom(sock,buf,payloadSize,0,(struct sockaddr *) &addr,&addrlen)) < 0)
     {
         perror("recvfrom");
         exit(EXIT_FAILURE);
     }
+
+    std::cout<<"Received message: ";
+    for(int i=0; i<nbytes; i++) std::cout<<buf[i];
+    std::cout<<std::endl;
+}
+
+StartPacket *MulticastUdpListener::recvStartPacket()
+{
+    char buf[payloadSize];
+    addrlen=sizeof(addr);
+    if ((nbytes=recvfrom(sock,buf,payloadSize,0,(struct sockaddr *) &addr,&addrlen)) < 0)
+    {
+        perror("recvfrom");
+        exit(EXIT_FAILURE);
+    }
+
+    char startPacketString[nbytes];
+    for(int i=0; i<nbytes; i++) startPacketString[i] = buf[i];
+
+    return new StartPacket(startPacketString, nbytes);
 }
 
 int MulticastUdpListener::getNbytes() const

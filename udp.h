@@ -6,6 +6,7 @@
 
 #include "unicastudp.h"
 #include "multicastudplistener.h"
+#include "startpacket.h"
 
 class Udp
 {
@@ -15,6 +16,7 @@ class Udp
         const char *hostIp;
         const char *multicastIp;
         const char *multicastPort;
+        StartPacket *startPacket;
         void sendPacket(char *data);
 
     public:
