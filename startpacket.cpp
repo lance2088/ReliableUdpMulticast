@@ -1,65 +1,35 @@
+#include <cmath>
+#include <QString>
+#include <QStringList>
+
 #include "startpacket.h"
 #include "utils.h"
-
-char *StartPacket::getStartPacketString() const
-{
-    return startPacketString;
-}
 
 StartPacket::StartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
 {
     this->fileSize = fileSize;
-//    this->charsAtOnce = charsAtOnce;
     this->packetNumberSize = packetNumberSize;
-
-    int howManyDataPackets = fileSize / charsAtOnce;
-    if(fileSize % charsAtOnce != 0) howManyDataPackets++;
-
-    this->howManyDataPackets = howManyDataPackets;
+    this->howManyDataPackets = ceil(1.0 * fileSize / charsAtOnce);
 
     QString message = QString::number(fileSize)
             + "." + QString::number(howManyDataPackets)
             + "." + QString::number(packetNumberSize);
 
-    this->startPacketString = message.toLocal8Bit().data();
-    this->startPacketStringLength = message.length();
+    this->packetString = message;
+    this->length = message.length();
 }
 
-StartPacket::StartPacket(char *startPacketString, int length)
+StartPacket::StartPacket(QString packetString) : Packet(packetString)
 {
-    this->startPacketStringLength = length;
-
-    int dotsIndexes[2];
-    int j = 0;
-    for(int i=0; i<length; i++)
-    {
-         if(startPacketString[i] == '.' && j<2)
-         {
-             dotsIndexes[j] = i;
-             j++;
-         }
-    }
-
-    char strFileSize[dotsIndexes[0]];
-    char strCharsAtOnce[dotsIndexes[1]-dotsIndexes[0]-1];
-    char strPacketNumerSize[length-dotsIndexes[1]-1];
-
-    substr(startPacketString, 0, dotsIndexes[0], strFileSize);
-    substr(startPacketString, dotsIndexes[0]+1, dotsIndexes[1], strCharsAtOnce);
-    substr(startPacketString, dotsIndexes[1]+1, length, strPacketNumerSize);
-
-    this->fileSize = strToInt(strFileSize, dotsIndexes[0]);
-    this->howManyDataPackets = strToInt(strCharsAtOnce, dotsIndexes[1]-dotsIndexes[0]-1);
-    this->packetNumberSize = strToInt(strPacketNumerSize, length-dotsIndexes[1]-1);
-    this->startPacketString = startPacketString;
+    QStringList data = this->packetString.split(".");
+    this->fileSize = data.at(0).toInt();
+    this->howManyDataPackets = data.at(1).toInt();
+    this->packetNumberSize = data.at(2).toInt();
 }
 
 void StartPacket::describe()
 {
-//    std::cout<<"String: "<<this->startPacketString<<std::endl; - tutaj wystepuje jakis szum na koncu
-    std::cout<<"String: ";
-    for(int i=0; i<this->startPacketStringLength; i++) std::cout<<this->startPacketString[i];
-    std::cout<<std::endl;
+    std::cout<<"String: "<<this->packetString.toLocal8Bit().data()<<std::endl;
     std::cout<<"FileSize: "<<this->fileSize<<std::endl;
     std::cout<<"HowManyDataPackets: "<<this->howManyDataPackets<<std::endl;
     std::cout<<"PacketNumberSize: "<<this->packetNumberSize<<std::endl;

@@ -1,21 +1,19 @@
 #ifndef STARTPACKET_H
 #define STARTPACKET_H
 
+#include "packet.h"
 
-class StartPacket
+class StartPacket : public Packet
 {
     private:
-        char *startPacketString;
-        int startPacketStringLength;
         int fileSize;
         int packetNumberSize;
         int howManyDataPackets;
 
     public:
         StartPacket(int fileSize, int charsAtOnce, int packetNumberSize);
-        StartPacket(char *startPacketString, int length);
+        StartPacket(QString packetString);
         void describe();
-        char *getStartPacketString() const;
 };
 
 #endif // STARTPACKET_H

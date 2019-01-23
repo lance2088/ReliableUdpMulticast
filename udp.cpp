@@ -39,24 +39,18 @@ void Udp::sendFile(QFile *file)
     if(this->startPacket != nullptr) delete this->startPacket;
     this->startPacket = new StartPacket(file->size(), charsAtOnce, packetNumberSize);
 
-    this->sendPacket(this->startPacket->getStartPacketString());
-
-//    while(charsRead == charsAtOnce){
-//        charsRead = in.readRawData(buffer+packetNumberSize, charsAtOnce);
-//        writePacketNum(buffer, packetNum, packetNumberSize);
-//        this->sendPacket(buffer);
-//        packetNum++;
-//    }
+    this->sendPacket(this->startPacket);
 }
 
 void Udp::receiveFile()
 {
     if(this->startPacket != nullptr) delete this->startPacket;
-    this->startPacket = this->multicastUdpListener->recvStartPacket();
+    this->startPacket = new StartPacket(this->multicastUdpListener->recvPacket());
     this->startPacket->describe();
 }
 
-void Udp::sendPacket(char * data)
+void Udp::sendPacket(Packet *packet)
 {
-    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, data);
+    // Byc moze w przyszlosci trzeba bedzie zmienic toLocal8Bit na cos innego, aby np. nie tracic polskich znakow
+    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, packet->getPacketString().toLocal8Bit().data());
 }

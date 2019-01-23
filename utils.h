@@ -13,14 +13,6 @@
 
 struct sockaddr_in generate_address_structure(const char *ip, const char *port="0");
 
-long int pow(int base, int exp);
-
-void substr(char *str, int begin, int end, char *strResult);
-
-int charToInt(char digit);
-
-long int strToInt(char *str, int length);
-
 bool validateAddress(QString address);
 
 int calculateActualDataSize(int sizeOfFile);

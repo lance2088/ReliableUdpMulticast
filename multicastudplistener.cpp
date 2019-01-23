@@ -58,21 +58,7 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     }
 }
 
-void MulticastUdpListener::recvDataPacket(char *buf)
-{
-    addrlen=sizeof(addr);
-    if ((nbytes=recvfrom(sock,buf,payloadSize,0,(struct sockaddr *) &addr,&addrlen)) < 0)
-    {
-        perror("recvfrom");
-        exit(EXIT_FAILURE);
-    }
-
-    std::cout<<"Received message: ";
-    for(int i=0; i<nbytes; i++) std::cout<<buf[i];
-    std::cout<<std::endl;
-}
-
-StartPacket *MulticastUdpListener::recvStartPacket()
+QString MulticastUdpListener::recvPacket()
 {
     char buf[payloadSize];
     addrlen=sizeof(addr);
@@ -82,13 +68,7 @@ StartPacket *MulticastUdpListener::recvStartPacket()
         exit(EXIT_FAILURE);
     }
 
-    char startPacketString[nbytes];
-    for(int i=0; i<nbytes; i++) startPacketString[i] = buf[i];
-
-    return new StartPacket(startPacketString, nbytes);
-}
-
-int MulticastUdpListener::getNbytes() const
-{
-    return nbytes;
+    QString packetString = buf;
+    packetString.truncate(nbytes);
+    return packetString;
 }

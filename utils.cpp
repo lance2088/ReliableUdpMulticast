@@ -46,33 +46,3 @@ void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
         packetNum /= 256;
     }
 }
-
-long int pow(int base, int exp)
-{
-    long int result = 1;
-    for(int i=1; i<=exp; i++)
-    {
-        result *= base;
-    }
-    return result;
-}
-
-void substr(char *str, int begin, int end, char *strResult)
-{
-    for(int i=begin; i<end; i++) strResult[i-begin] = str[i];
-}
-
-int charToInt(char digit)
-{
-    return digit - '0';
-}
-
-long int strToInt(char *str, int length)
-{
-    long int total = 0;
-    for(int i=0; i<length; i++)
-    {
-        total += (pow(10, length-i-1) * charToInt(str[i]));
-    }
-    return total;
-}

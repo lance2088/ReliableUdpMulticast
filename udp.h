@@ -17,7 +17,7 @@ class Udp
         const char *multicastIp;
         const char *multicastPort;
         StartPacket *startPacket;
-        void sendPacket(char *data);
+        void sendPacket(Packet *packet);
 
     public:
         Udp(const char *hostIp, const char *multicastIp, const char *multicastPort);
