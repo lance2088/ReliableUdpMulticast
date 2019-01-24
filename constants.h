@@ -10,7 +10,7 @@ const QString receiversFound = "Znaleziono odbiorców: %1";
 const QString resending = "Ponawianie pakietu dla %1...";
 const QString receiverInactive = "Odbiorca %1 nie odpowiada. Odbiorca może nie otrzymać pliku w całości.";
 const QString fileSendingSuccess = "Pomyślnie wysłano plik do %1 odbiorców!";
-const QString fileReceived = "Odebrano plik. Plik jest dostępny do pobrania.";
+const QString fileReceived = "Odebrano plik.";
 
 const int payloadSize = 508;
 
