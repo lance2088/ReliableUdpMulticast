@@ -40,6 +40,18 @@ void Udp::sendFile(QFile *file)
     this->startPacket = new StartPacket(file->size(), charsAtOnce, packetNumberSize);
 
     this->sendPacket(this->startPacket);
+
+    QString data;
+
+    while(charsRead == charsAtOnce){
+            charsRead = in.readRawData(buffer, charsAtOnce);
+            data = buffer;
+            data.truncate(charsRead);
+            DataPacket *packet = new DataPacket(data, packetNumberSize, packetNum);
+            sendPacket(packet);
+            delete packet;
+            packetNum++;
+    }
 }
 
 void Udp::receiveFile()
@@ -47,6 +59,22 @@ void Udp::receiveFile()
     if(this->startPacket != nullptr) delete this->startPacket;
     this->startPacket = new StartPacket(this->multicastUdpListener->recvPacket());
     this->startPacket->describe();
+    DataPacket *dataPacket;
+
+    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    delete dataPacket;
+
+    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    delete dataPacket;
+
+    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    delete dataPacket;
+
+    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    delete dataPacket;
+
+    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    delete dataPacket;
 }
 
 void Udp::sendPacket(Packet *packet)

@@ -42,7 +42,7 @@ void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
 {
     while(packetNumberSize > 0){
         packetNumberSize--;
-        buffer[packetNumberSize] = packetNum % 256;
+        buffer[packetNumberSize] = ((char)(packetNum % 256));
         packetNum /= 256;
     }
 }

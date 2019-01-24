@@ -5,6 +5,11 @@
 #include "startpacket.h"
 #include "utils.h"
 
+int StartPacket::getPacketNumberSize() const
+{
+    return packetNumberSize;
+}
+
 StartPacket::StartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
 {
     this->fileSize = fileSize;

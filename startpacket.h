@@ -14,6 +14,7 @@ class StartPacket : public Packet
         StartPacket(int fileSize, int charsAtOnce, int packetNumberSize);
         StartPacket(QString packetString);
         void describe();
+        int getPacketNumberSize() const;
 };
 
 #endif // STARTPACKET_H
