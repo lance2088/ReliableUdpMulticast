@@ -18,16 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     listModel = new QStandardItemModel();
     ui->messageListView->setModel(listModel);
 
-    addMessage(joinFailure);
-    addMessage(joinSuccess);
-    addMessage(fileSendingStart);
-    addMessage(receiversFound.arg(4));
-    addMessage(resending.arg("192.168.0.16"));
-    addMessage(receiverInactive.arg("192.168.0.16"));
-    addMessage(fileSendingSuccess.arg(3));
-    addMessage(fileReceived);
-    addMessage(fileReceived);
-
     udp = nullptr;
 }
 
