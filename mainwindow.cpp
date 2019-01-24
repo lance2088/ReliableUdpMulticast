@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(settingsWindow.saveSettingsButton,SIGNAL(clicked()),this,SLOT(joinMulticast()));
     connect(sendWindow.acceptSendButton,SIGNAL(clicked()),this,SLOT(sendFile()));
 
     listModel = new QStandardItemModel();
@@ -57,17 +56,4 @@ void MainWindow::sendFile()
     if(udp == nullptr) udp = new Udp("127.0.0.1", "239.0.0.1", "6100");
     udp->sendFile(file);
     udp->receiveFile();
-}
-
-void MainWindow::joinMulticast()
-{
-    bool success = true; // TODO: próba dołączenia lub weryfikacji adresu
-
-    if(success){
-        ui->sendButton->setEnabled(true);
-        addMessage(joinSuccess);
-    }
-    else{
-        addMessage(joinFailure);
-    }
 }
