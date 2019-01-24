@@ -29,7 +29,7 @@ StartPacket::StartPacket(QString packetString) : Packet(packetString)
 
 void StartPacket::describe()
 {
-    std::cout<<"String: "<<this->packetString.toLocal8Bit().data()<<std::endl;
+    std::cout<<"String: "<<this->packetString.toUtf8().data()<<std::endl;
     std::cout<<"FileSize: "<<this->fileSize<<std::endl;
     std::cout<<"HowManyDataPackets: "<<this->howManyDataPackets<<std::endl;
     std::cout<<"PacketNumberSize: "<<this->packetNumberSize<<std::endl;

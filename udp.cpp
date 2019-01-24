@@ -51,6 +51,5 @@ void Udp::receiveFile()
 
 void Udp::sendPacket(Packet *packet)
 {
-    // Byc moze w przyszlosci trzeba bedzie zmienic toLocal8Bit na cos innego, aby np. nie tracic polskich znakow
-    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, packet->getPacketString().toLocal8Bit().data());
+    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, packet->getPacketString().toUtf8().data());
 }
