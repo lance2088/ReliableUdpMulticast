@@ -22,6 +22,5 @@ void SettingsWindow::on_cancelSettingsButton_clicked()
 void SettingsWindow::on_saveSettingsButton_clicked()
 {
     multicastAddress = ui->multicastAddressLineEdit->text();
-    hostAddress = ui->hostAddressLineEdit->text();
     this->hide();
 }
