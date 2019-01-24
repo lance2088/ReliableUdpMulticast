@@ -7,6 +7,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#include "startpacket.h"
+
 class MulticastUdpListener
 {
     private:
@@ -15,6 +17,11 @@ class MulticastUdpListener
         int type;
         int protocol;
         int nbytes;
+
+        int fileSize;
+        int howManyDataPackets;
+        int packetNumberSize;
+
         socklen_t addrlen;
         const char *multicastPort;
         const char *multicastIp;
@@ -24,8 +31,7 @@ class MulticastUdpListener
     public:
         MulticastUdpListener(int domain, int type, int protocol, const char *hostIp, const char *multicastAddress, const char *multicastPort);
         ~MulticastUdpListener();
-        void recvPacket(char *buf);
-        int getNbytes() const;
+        QString recvPacket();
 };
 
 #endif // MULTICASTUDPLISTENER_H

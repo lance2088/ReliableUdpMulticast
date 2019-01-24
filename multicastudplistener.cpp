@@ -2,9 +2,12 @@
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
+#include <QStringList>
 
 #include "multicastudplistener.h"
 #include "utils.h"
+#include "constants.h"
+#include "startpacket.h"
 
 MulticastUdpListener::~MulticastUdpListener()
 {
@@ -55,17 +58,17 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     }
 }
 
-void MulticastUdpListener::recvPacket(char *buf)
+QString MulticastUdpListener::recvPacket()
 {
+    char buf[payloadSize];
     addrlen=sizeof(addr);
-    if ((nbytes=recvfrom(sock,buf,256,0,(struct sockaddr *) &addr,&addrlen)) < 0)
+    if ((nbytes=recvfrom(sock,buf,payloadSize,0,(struct sockaddr *) &addr,&addrlen)) < 0)
     {
         perror("recvfrom");
         exit(EXIT_FAILURE);
     }
-}
 
-int MulticastUdpListener::getNbytes() const
-{
-    return nbytes;
+    QString packetString = buf;
+    packetString.truncate(nbytes);
+    return packetString;
 }
