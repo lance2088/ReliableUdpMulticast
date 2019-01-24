@@ -26,7 +26,6 @@ public:
 private slots:
     void on_settingsButton_clicked();
     void on_sendButton_clicked();
-    void joinMulticast();
     void sendFile();
 
 private:
