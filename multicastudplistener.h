@@ -31,7 +31,7 @@ class MulticastUdpListener
     public:
         MulticastUdpListener(int domain, int type, int protocol, const char *hostIp, const char *multicastAddress, const char *multicastPort);
         ~MulticastUdpListener();
-        QString recvPacket();
+        Packet *recvPacket();
 };
 
 #endif // MULTICASTUDPLISTENER_H
