@@ -37,12 +37,3 @@ int calculateActualDataSize(int sizeOfFile)
 
     return dataSize;
 }
-
-void writePacketNum(char *buffer, int packetNum, int packetNumberSize)
-{
-    while(packetNumberSize > 0){
-        packetNumberSize--;
-        buffer[packetNumberSize] = packetNum % 256;
-        packetNum /= 256;
-    }
-}

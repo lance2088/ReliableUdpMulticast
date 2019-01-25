@@ -55,5 +55,4 @@ void MainWindow::sendFile()
 
     if(udp == nullptr) udp = new Udp("127.0.0.1", "239.0.0.1", "6100");
     udp->sendFile(file);
-    udp->receiveFile();
 }

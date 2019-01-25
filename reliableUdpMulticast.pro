@@ -33,7 +33,8 @@ SOURCES += \
     multicastudplistener.cpp \
     udp.cpp \
     startpacket.cpp \
-    packet.cpp
+    packet.cpp \
+    datapacket.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
     multicastudplistener.h \
     udp.h \
     startpacket.h \
-    packet.h
+    packet.h \
+    datapacket.h
 
 FORMS += \
         mainwindow.ui \

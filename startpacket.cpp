@@ -5,6 +5,21 @@
 #include "startpacket.h"
 #include "utils.h"
 
+int StartPacket::getPacketNumberSize() const
+{
+    return packetNumberSize;
+}
+
+void StartPacket::setParameters(char *payload)
+{
+    QString payloadAsQstring = payload;
+    QStringList parameters = payloadAsQstring.split('.');
+
+    this->fileSize = parameters.at(0).toInt();
+    this->howManyDataPackets = parameters.at(1).toInt();
+    this->packetNumberSize = parameters.at(2).toInt();
+}
+
 StartPacket::StartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
 {
     this->fileSize = fileSize;
@@ -15,22 +30,11 @@ StartPacket::StartPacket(int fileSize, int charsAtOnce, int packetNumberSize)
             + "." + QString::number(howManyDataPackets)
             + "." + QString::number(packetNumberSize);
 
-    this->packetString = message;
+    this->payload = message.toUtf8().data();
     this->length = message.length();
 }
 
-StartPacket::StartPacket(QString packetString) : Packet(packetString)
+StartPacket::StartPacket(char* payload, int length) : Packet(payload, length)
 {
-    QStringList data = this->packetString.split(".");
-    this->fileSize = data.at(0).toInt();
-    this->howManyDataPackets = data.at(1).toInt();
-    this->packetNumberSize = data.at(2).toInt();
-}
-
-void StartPacket::describe()
-{
-    std::cout<<"String: "<<this->packetString.toUtf8().data()<<std::endl;
-    std::cout<<"FileSize: "<<this->fileSize<<std::endl;
-    std::cout<<"HowManyDataPackets: "<<this->howManyDataPackets<<std::endl;
-    std::cout<<"PacketNumberSize: "<<this->packetNumberSize<<std::endl;
+    setParameters(payload);
 }
