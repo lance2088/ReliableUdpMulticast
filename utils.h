@@ -17,6 +17,4 @@ bool validateAddress(QString address);
 
 int calculateActualDataSize(int sizeOfFile);
 
-void writePacketNum(char *buffer, int packetNum, int packetNumberSize);
-
 #endif // UTILS_H

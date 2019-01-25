@@ -24,7 +24,7 @@ class Udp
         Udp(const char *hostIp, const char *multicastIp, const char *multicastPort);
         ~Udp();
         void sendFile(QFile *file);
-        void receiveFile();
+        void receiveFile(int fileSize, int howManyDataPackets, int packetNumberSize);
 };
 
 #endif // MANAGER_H

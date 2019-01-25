@@ -58,7 +58,7 @@ MulticastUdpListener::MulticastUdpListener(int domain, int type, int protocol, c
     }
 }
 
-QString MulticastUdpListener::recvPacket()
+Packet *MulticastUdpListener::recvPacket()
 {
     char buf[payloadSize];
     addrlen=sizeof(addr);
@@ -68,7 +68,5 @@ QString MulticastUdpListener::recvPacket()
         exit(EXIT_FAILURE);
     }
 
-    QString packetString = buf;
-    packetString.truncate(nbytes);
-    return packetString;
+    return new Packet(buf, nbytes);
 }

@@ -9,11 +9,10 @@ class StartPacket : public Packet
         int fileSize;
         int packetNumberSize;
         int howManyDataPackets;
-
-    public:
+        void setParameters(char *payload);
+public:
         StartPacket(int fileSize, int charsAtOnce, int packetNumberSize);
-        StartPacket(QString packetString);
-        void describe();
+        StartPacket(char* payload, int length);
         int getPacketNumberSize() const;
 };
 

@@ -34,38 +34,31 @@ void Udp::sendFile(QFile *file)
     const int charsAtOnce = calculateActualDataSize(file->size());
     const int packetNumberSize = payloadSize - charsAtOnce;
     int charsRead = charsAtOnce;
-    int packetNum = 0; // DLA TESTOWANIA O NC ZAMIENIC NA 1
+    int packetNum = 0;
 
     if(this->startPacket != nullptr) delete this->startPacket;
     this->startPacket = new StartPacket(file->size(), charsAtOnce, packetNumberSize);
 
     this->sendPacket(this->startPacket);
 
-    QString data;
-
     while(charsRead == charsAtOnce){
-            charsRead = in.readRawData(buffer, charsAtOnce);
-            data = buffer;
-            data.truncate(charsRead);
-            DataPacket *packet = new DataPacket(data, packetNumberSize, packetNum);
-            sendPacket(packet);
-            delete packet;
-            packetNum++;
+        charsRead = in.readRawData(buffer, charsAtOnce);
+        DataPacket *packet = new DataPacket(buffer, charsRead, packetNumberSize, packetNum);
+        sendPacket(packet);
+        delete packet;
+        packetNum++;
     }
 }
 
-void Udp::receiveFile()
+void Udp::receiveFile(int fileSize, int howManyDataPackets, int packetNumberSize)
 {
-    if(this->startPacket != nullptr) delete this->startPacket;
-    this->startPacket = new StartPacket(this->multicastUdpListener->recvPacket());
-    this->startPacket->describe();
+    Packet *receivedPacket = this->multicastUdpListener->recvPacket();
     DataPacket *dataPacket;
-
-    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
+    dataPacket = new DataPacket(receivedPacket, packetNumberSize);
     delete dataPacket;
 }
 
 void Udp::sendPacket(Packet *packet)
 {
-    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, packet->getPacketString().toUtf8().data());
+    this->unicastUdp->sendToIp(this->multicastIp, this->multicastPort, packet->getPayload());
 }

@@ -10,12 +10,12 @@ class DataPacket : public Packet
     private:
         int packetNumberSize;
         int packetNumber;
-        QString data;
-        QString createNumberString(int packetNumber, int packetNumberSize);
-        int getPacketNumber(QString packetString, int packetNumberSize);
+        char* data;
+        void writePacketNumber(char *payload, int packetNumber, int packetNumberSize);
+        int getPacketNumber(char* payload, int packetNumberSize);
     public:
-        DataPacket(QString packetString, int packetNumberSize);
-        DataPacket(QString packetString, int packetNumberSize, int packetNumber);
+        DataPacket(Packet *packet, int packetNumberSize);
+        DataPacket(char* payload, int length, int packetNumberSize, int packetNumber);
 };
 
 #endif // DATAPACKET_H

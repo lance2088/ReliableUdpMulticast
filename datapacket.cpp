@@ -3,51 +3,37 @@
 #include "datapacket.h"
 #include <iostream>
 
-QString DataPacket::createNumberString(int packetNumber, int packetNumberSize)
+void DataPacket::writePacketNumber(char* payload, int packetNumber, int packetNumberSize)
 {
-    // TODO: kodowanie
-    QString result = "";
     while(packetNumberSize > 0){
         packetNumberSize--;
-        result = QChar(packetNumber%256) + result;
+        payload[packetNumberSize] = ((char)(packetNumber % 256));
         packetNumber /= 256;
     }
+}
+
+int DataPacket::getPacketNumber(char* payload, int packetNumberSize)
+{
+    int result = 0;
+
+    for(int i = 0; i < packetNumberSize; i++){
+        result *= 256;
+        result += payload[i];
+    }
+
     return result;
 }
 
-int DataPacket::getPacketNumber(QString packetString, int packetNumberSize)
-{
-    // TODO: dekodowanie
-    QString packetNumberString = packetString;
-    packetNumberString.truncate(packetNumberSize);
-
-    QString binaryRepresentation = "";
-    const char *temp = packetString.toLatin1().data();
-    int code;
-    std::string binary;
-    for(int i=0; i<packetNumberString.length(); i++)
-    {
-        code = temp[i];
-        binary = std::bitset<8>(code).to_string(); //to binary
-        binaryRepresentation += QString::fromStdString(binary);
-    }
-
-    return binaryRepresentation.toInt(nullptr, 2);
-}
-
-DataPacket::DataPacket(QString packetString, int packetNumberSize) : Packet(packetString)
+DataPacket::DataPacket(Packet *packet, int packetNumberSize) : Packet(packet->getPayload(), packet->getLength())
 {
     this->packetNumberSize = packetNumberSize;
-    this->data = packetString.remove(0, packetNumberSize);
-    this->packetNumber = getPacketNumber(packetString, packetNumberSize);
-    std::cout<<this->packetNumber<<std::endl;
+    this->data = payload + packetNumberSize;
+    this->packetNumber = getPacketNumber(payload, packetNumberSize);
 }
 
-DataPacket::DataPacket(QString packetString, int packetNumberSize, int packetNumber)
+DataPacket::DataPacket(char* payload, int length, int packetNumberSize, int packetNumber) : Packet(payload, length)
 {
     this->packetNumberSize = packetNumberSize;
-    this->data = packetString;
-    this->packetString = createNumberString(packetNumber, packetNumberSize) + packetString;
     this->packetNumber = packetNumber;
-    this->length = this->packetString.length();
+    writePacketNumber(payload, packetNumber, packetNumberSize);
 }

@@ -7,13 +7,18 @@ Packet::Packet()
 
 }
 
-Packet::Packet(QString packetString)
+Packet::Packet(char* payload, int length)
 {
-    this->packetString = packetString;
-    this->length = packetString.length();
+    this->payload = payload;
+    this->length = length;
 }
 
-QString Packet::getPacketString()
+char* Packet::getPayload()
 {
-    return this->packetString;
+    return this->payload;
+}
+
+int Packet::getLength()
+{
+    return this->length;
 }
