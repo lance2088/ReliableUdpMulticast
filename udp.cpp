@@ -63,18 +63,6 @@ void Udp::receiveFile()
 
     dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
     delete dataPacket;
-
-    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
-    delete dataPacket;
-
-    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
-    delete dataPacket;
-
-    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
-    delete dataPacket;
-
-    dataPacket = new DataPacket(this->multicastUdpListener->recvPacket(), startPacket->getPacketNumberSize());
-    delete dataPacket;
 }
 
 void Udp::sendPacket(Packet *packet)
